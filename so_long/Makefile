@@ -6,7 +6,7 @@
 #    By: ewolfghe <ewolfghe@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/27 16:09:04 by ewolfghe          #+#    #+#              #
-#    Updated: 2022/11/27 16:46:00 by ewolfghe         ###   ########.fr        #
+#    Updated: 2022/12/03 12:54:19 by ewolfghe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ FLAGS	=	-Wall -Wextra -Werror
 MLX		=	mlx/libmlx.a
 LIB		=	libft/libft.a
 COMP	=	-L ./libft/ -lft -L ./mlx/ -lmlx -lXext -lX11 -lm -lbsd
-SRC		=	
+SRC		=	./src/so_long.c ./src/map_init.c ./src/win_arg.c \
+			./src/get_next_line.c ./src/hooks.c
 
 OBJ		=	$(SRC:.c=.o)
 

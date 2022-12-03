@@ -1,15 +1,47 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_init.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ewolfghe <ewolfghe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/03 11:52:10 by ewolfghe          #+#    #+#             */
+/*   Updated: 2022/12/03 12:49:22 by ewolfghe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../headers/so_long.h"
 
-void	set_tile(t_game *game, int x, int y, char ch)
+void	set_bg(t_game *game);
+
+void	set_tile(t_game *game, int x, int y, char ch);
+
+void	map_init(t_game *game)
 {
-	if (ch == 'C')
-		mlx_put_image_to_window(game->mlx, game->win, game->coins, x, y);
-	else if (ch == '1')
-		mlx_put_image_to_window(game->mlx, game->win, game->wall, x, y);
-	else if (ch == 'E')
-		mlx_put_image_to_window(game->mlx, game->win, game->exit, x, y);
-	else if (ch == 'P')
-		mlx_put_image_to_window(game->mlx, game->win, game->player, x, y);
+	int	x;
+	int y;
+
+	set_bg(game);
+	y = -1;
+	while (++y < game->map_height)
+	{
+		x = -1;
+		while (++x < game->map_width)
+		{
+			if (game->map[y][x] == WALL)
+				set_tile(game, x * 32, y * 32, WALL);
+			else if (game->map[y][x] == EXIT)
+				set_tile(game, x * 32, y * 32, EXIT);
+			else if (game->map[y][x] == COINS)
+				set_tile(game, x * 32, y * 32, COINS);
+			else if (game->map[y][x] == PLAYER)
+			{
+				game->x = x;
+				game->y = y;
+				set_tile(game, x * 32, y * 32, PLAYER);
+			}
+		}
+	}
 }
 
 void	set_bg(t_game *game)
@@ -33,30 +65,14 @@ void	set_bg(t_game *game)
 	mlx_put_image_to_window(game->mlx, game->win, game->img_bg.img_ptr, 0, 0);	
 }
 
-void	map_init(t_game *game)
+void	set_tile(t_game *game, int x, int y, char ch)
 {
-	int	x;
-	int y;
-
-	set_bg(game);
-	y = -1;
-	while (++y < game->map_height)
-	{
-		x = -1;
-		while (++x < game->map_width)
-		{
-			if (game->map[y][x] == '1')
-				set_tile(game, x * 32, y * 32, '1');
-			else if (game->map[y][x] == 'E')
-				set_tile(game, x * 32, y * 32, 'E');
-			else if (game->map[y][x] == 'C')
-				set_tile(game, x * 32, y * 32, 'C');
-			else if (game->map[y][x] == 'P')
-			{
-				game->x = x;
-				game->y = y;
-				set_tile(game, x * 32, y * 32, 'P');
-			}
-		}
-	}
+	if (ch == COINS)
+		mlx_put_image_to_window(game->mlx, game->win, game->coins, x, y);
+	else if (ch == WALL)
+		mlx_put_image_to_window(game->mlx, game->win, game->wall, x, y);
+	else if (ch == EXIT)
+		mlx_put_image_to_window(game->mlx, game->win, game->exit, x, y);
+	else if (ch == PLAYER)
+		mlx_put_image_to_window(game->mlx, game->win, game->player, x, y);
 }

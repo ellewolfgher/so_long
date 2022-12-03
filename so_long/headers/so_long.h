@@ -6,13 +6,16 @@
 /*   By: ewolfghe <ewolfghe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 12:26:46 by ewolfghe          #+#    #+#             */
-/*   Updated: 2022/11/27 16:03:56 by ewolfghe         ###   ########.fr       */
+/*   Updated: 2022/12/03 12:45:38 by ewolfghe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
+# include "../mlx/mlx.h"
+# include "./get_next_line.h"
+# include "../libft/libft.h"
 # include <unistd.h>
 # include <fcntl.h>
 
@@ -71,7 +74,13 @@ typedef struct s_game
 	int		n_exit;
 }				t_game;
 
-
-
+void	map_init(t_game *game);
+void	set_bg(t_game *game);
+void	set_tile(t_game *game, int x, int y, char ch);
+void	free_ptr(t_game *game);
+void	print_steps(t_game *game);
+void	player_coord(t_game *game, int x, int y);
+int		key_moves(int keycode, t_game *game);
+int		close_game(t_game *game);
 
 #endif
