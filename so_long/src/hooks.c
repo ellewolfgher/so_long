@@ -1,76 +1,75 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   hooks.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ewolfghe <ewolfghe@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/03 12:21:20 by ewolfghe          #+#    #+#             */
-/*   Updated: 2022/12/03 12:47:59 by ewolfghe         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../headers/so_long.h"
 
-void	free_ptr(t_game *game)
+int	ft_key_event(int key, t_game *game)
 {
-	int	i;
-
-	i = 0;
-	free(game->mlx);
-	while (i < game->map_height)
+	if (key == KEY_ESC)
 	{
-		free(game->map[i]);
-		i++;
+		ft_free_all(game);
+		exit(EXIT_SUCCESS);
 	}
-	free(game->map);
+	ft_key_up(key, game);
+	ft_key_down(key, game);
+	ft_key_left(key, game);
+	ft_key_right(key, game);
+	return (0);
 }
 
-void	print_steps(t_game *game)
+void	ft_key_up(int key, t_game *game)
 {
-	char	*steps;
-	
-	steps = ft_itoa(game->steps);
-	write(1, steps, ft_strlen(steps));
-	write(1, "\n", 1);
-	free(steps);
-}
-
-void	player_coord(t_game *game, int x, int y)
-{
-	if (game->map[y][x] == EXIT)
+	if (key == KEY_UP || key == KEY_W)
 	{
-		if (game->n_coins == 0)
+		if (ft_check_moves(game, game->player_x, game->player_y - 1))
 		{
-			ft_putendl_fd("Game Reseted!", 1);
-			ft_close_game(game);
+			game->map_ptr[game->player_y][game->player_x] = TILES;
+			game->player_y -= 1;
+			game->map_ptr[game->player_y][game->player_x] = PLAYER;
+			game->coords = 'B';
+			ft_render_after_move(game);
 		}
 	}
-	if (game->map[y][x] == COINS || game->map[y][x] == FLOOR)
+}
+
+void	ft_key_down(int key, t_game *game)
+{
+	if (key == KEY_DOWN || key == KEY_S)
 	{
-		if (game->map[y][x] == COINS)
-			game->n_coins--;
-		game->map[game->y][game->x] = FLOOR;
-		game->map[y][x] = PLAYER;
-		game->x = x;
-		game->steps++;
-		print_steps(game);
-		mlx_destroy_image(game->mlx, game->img_bg.img_ptr);
-		map_init(game);
+		if (ft_check_moves(game, game->player_x, game->player_y + 1))
+		{
+			game->map_ptr[game->player_y][game->player_x] = TILES;
+			game->player_y += 1;
+			game->map_ptr[game->player_y][game->player_x] = PLAYER;
+			game->coords = 'F';
+			ft_render_after_move(game);
+		}
 	}
 }
 
-int	key_moves(int keycode, t_game *game)
+void	ft_key_left(int key, t_game *game)
 {
-	if (keycode == KEY_W || keycode == KEY_UP)
-		player_coord(game, game->x, game->y - 1);
-	if (keycode == KEY_S || keycode == KEY_DOWN)
-		player_coord(game, game->x, game-> y + 1);
-	if (keycode == KEY_A || keycode == KEY_LEFT)
-		player_coord(game, game->x -1, game->y);
-	if (keycode == KEY_D || keycode == KEY_RIGHT)
-		player_coord(game, game->x + 1, game->y);
-	if (keycode == KEY_ESC)
-		close_game(game);
-	return (0);
+	if (key == KEY_LEFT || key == KEY_A)
+	{
+		if (ft_check_moves(game, game->player_x - 1, game->player_y))
+		{
+			game->map_ptr[game->player_y][game->player_x] = TILES;
+			game->player_x -= 1;
+			game->map_ptr[game->player_y][game->player_x] = PLAYER;
+			game->coords = 'L';
+			ft_render_after_move(game);
+		}
+	}
+}
+
+void	ft_key_right(int key, t_game *game)
+{
+	if (key == KEY_RIGHT || key == KEY_D)
+	{
+		if (ft_check_moves(game, game->player_x + 1, game->player_y))
+		{
+			game->map_ptr[game->player_y][game->player_x] = TILES;
+			game->player_x += 1;
+			game->map_ptr[game->player_y][game->player_x] = PLAYER;
+			game->coords = 'R';
+			ft_render_after_move(game);
+		}
+	}
 }

@@ -16,9 +16,8 @@ FLAGS	=	-Wall -Wextra -Werror
 MLX		=	mlx/libmlx.a
 LIB		=	libft/libft.a
 COMP	=	-L ./libft/ -lft -L ./mlx/ -lmlx -lXext -lX11 -lm -lbsd
-SRC		=	./src/so_long.c ./src/game_init.c ./src/utils.c \
-			./src/get_next_line.c ./src/hooks.c ./src/ber_wall_check.c \
-			./src/map_check.c
+SRC		=	./src/so_long.c ./src/map_init.c ./src/win_arg.c \
+			./src/get_next_line.c ./src/hooks.c
 
 OBJ		=	$(SRC:.c=.o)
 

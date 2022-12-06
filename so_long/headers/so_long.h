@@ -1,26 +1,15 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ewolfghe <ewolfghe@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/27 12:26:46 by ewolfghe          #+#    #+#             */
-/*   Updated: 2022/12/03 12:45:38 by ewolfghe         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
+# include <unistd.h>
+# include <stdlib.h>
+# include <fcntl.h>
 # include "../mlx/mlx.h"
 # include "./get_next_line.h"
 # include "../libft/libft.h"
-# include <unistd.h>
-# include <fcntl.h>
 
 # define WALL				'1'
-# define FLOOR 				'0'
+# define TILES 				'0'
 # define COINS  			'C'
 # define PLAYER				'P'
 # define EXIT 		 		'E'
@@ -37,50 +26,73 @@
 
 # define KEY_ESC  			65307
 
-# define FRONT				1
-# define LEFT				2
-# define RIGHT				3
-# define BACK				4
-
-typedef struct s_img
-{
-	void	*img_ptr;
-	int		*addr;
-	int		height;
-	int		width;
-	int		size_line;
-	int		bpp;
-	int		endian;	
-}				t_img;
+# define XPM_P_FRONT "./assets/player_front.xpm"
+# define XPM_P_BACK "./assets/player_back.xpm"
+# define XPM_P_LEFT "./assets/player_left.xpm"
+# define XPM_P_RIGHT "./assets/player_right.xpm"
+# define XPM_COIN "./assets/coin.xpm"
+# define XPM_EXIT "./assets/exit.xpm"
+# define XPM_TILE "./assets/tile.xpm"
+# define XPM_WALL "./assets/wall.xpm"
 
 typedef struct s_game
 {
-	t_img	img_bg;
-	void	*wall;
-	void	*coins;
-	void	*player;
-	void	*exit;
-	void	*win;
 	void	*mlx;
-	char	**map;
-	int		x;
-	int		y;
-	int		map_height;
-	int		map_width;
-	int		steps;
-	int		fd;
-	int		n_players;
-	int		n_coins;
-	int		n_exit;
-}				t_game;
+	void	*win;
+	void	*p_front;
+	void	*p_back;
+	void	*p_right;
+	void	*p_left;
+	void	*exit;
+	void	*wall;
+	void	*coin;
+	void	*tile;
+	int		img_x;
+	int		img_y;
+	int		pos_x;
+	int		pos_y;
+	int		player_x;
+	int		player_y;
+	int		map_x;
+	int		map_y;
+	char	*map;
+	char	**map_ptr;
+	char	**aux_map_ptr;
+	int		coins_count;
+	int		aux_coins_count;
+	int		exit_count;
+	int		player_count;
+	int		valid_e;
+	int		moves_count;
+	char	coords;
+	char	*move_count_screen;
+}	t_game;
 
-void	map_init(t_game *game);
-void	set_bg(t_game *game);
-void	set_tile(t_game *game, int x, int y, char ch);
-void	free_ptr(t_game *game);
-void	print_steps(t_game *game);
-void	player_coord(t_game *game, int x, int y);
-int		key_moves(int keycode, t_game *game);
-int		close_game(t_game *game);
+void	ft_ber_check(char *map_name, t_game *game);
+void	ft_error(char *msg, t_game *game);
+void	ft_init_map(t_game *game, char *map);
+void	ft_map_check(t_game *game);
+void	ft_ber_map_check(t_game *game);
+void	ft_format_check(t_game *game);
+void	ft_wall_check(t_game *game);
+void	ft_sides_check(t_game *game);
+void	ft_valid_map_check(t_game *game, int x, int y);
+void	ft_path_check(t_game *game);
+void	ft_init_img(t_game *game);
+void	ft_set_img(t_game *game);
+void	ft_set_img_player(t_game *game, int x, int y);
+void	ft_score(t_game *game);
+void	ft_init_pos(int *x, int *y);
+void	ft_map_size(int *x, int *y, t_game *game);
+void	ft_render_after_move(t_game *game);
+void	ft_key_up(int key, t_game *game);
+void	ft_key_down(int key, t_game *game);
+void	ft_key_right(int key, t_game *game);
+void	ft_key_left(int key, t_game *game);
+void	ft_free_all(t_game *game);
+void	ft_free_mlx(t_game *game);
+int		ft_key_event(int keycode, t_game *game);
+int		ft_check_moves(t_game *game, int x, int y);
+int		ft_close_window(t_game *game);
 
 #endif
