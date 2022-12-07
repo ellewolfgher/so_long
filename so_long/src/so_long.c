@@ -1,8 +1,20 @@
-#include "../headers/so_long.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ewolfghe <ewolfghe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/07 19:37:14 by ewolfghe          #+#    #+#             */
+/*   Updated: 2022/12/07 19:37:16 by ewolfghe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "so_long.h"
 
 void	ft_error(char *msg, t_game *game)
 {
-	ft_putendl_fd(msg, 2);
+	ft_printf(msg);
 	ft_free_all(game);
 	exit(EXIT_FAILURE);
 }
@@ -19,49 +31,49 @@ void	ft_free_all(t_game *game)
 	int	i;
 
 	i = 0;
-	if (game->map)
-		free(game->map);
-	if (game->map_ptr)
+	if (game->map1)
+		free(game->map1);
+	if (game->map2)
 	{
-		while (game->map_ptr[i])
+		while (game->map2[i])
 		{
-			free(game->map_ptr[i]);
+			free(game->map2[i]);
 			i++;
 		}
-		free(game->map_ptr);
+		free(game->map2);
 	}
 }
 
 void	ft_free_mlx(t_game *game)
 {
 	mlx_destroy_image(game->mlx, game->tile);
-	mlx_destroy_image(game->mlx, game->coin);
+	mlx_destroy_image(game->mlx, game->coins);
 	mlx_destroy_image(game->mlx, game->wall);
 	mlx_destroy_image(game->mlx, game->exit);
-	mlx_destroy_image(game->mlx, game->p_front);
-	mlx_destroy_image(game->mlx, game->p_back);
-	mlx_destroy_image(game->mlx, game->p_left);
-	mlx_destroy_image(game->mlx, game->p_right);
-	mlx_destroy_window(game->mlx, game->win);
+	mlx_destroy_image(game->mlx, game->player_l);
+	mlx_destroy_image(game->mlx, game->player_r);
+	mlx_destroy_image(game->mlx, game->player_b);
+	mlx_destroy_image(game->mlx, game->player_f);
+	mlx_destroy_window(game->mlx, game->window);
 	free(game->mlx);
 }
 
-int	main(int argc, char *argv[])
+int	main(int ac, char **av)
 {
 	t_game	*game;
 
-	if (argc == 2)
+	if (ac == 2)
 	{
 		game = ft_calloc(sizeof(t_game), 1);
-		ft_ber_check(argv[1], game);
-		ft_init_map(game, argv[1]);
+		ft_ber_check(av[1], game);
+		ft_init_map(game, av[1]);
 		ft_map_check(game);
 		ft_format_check(game);
 		ft_wall_check(game);
-		ft_valid_map_check(game, game->player_x, game->player_y);
+		ft_valid_map_check(game, game->ply_x, game->ply_y);
 		ft_path_check(game);
 		game->mlx = mlx_init();
-		ft_init_img(game);
+		ft_init_image(game);
 		mlx_hook(game->window, 2, 1L << 0, ft_key_event, game);
 		mlx_hook(game->window, 17, 1L << 2, ft_close_window, game);
 		mlx_loop(game->mlx);
@@ -69,6 +81,6 @@ int	main(int argc, char *argv[])
 	else
 	{
 		game = ft_calloc(sizeof(t_game), 1);
-		ft_error("Map file is missing.", game);
+		ft_error("You just have to enter the map path!", game);
 	}
 }

@@ -1,37 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   ft_puthex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ewolfghe <ewolfghe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/06 19:53:47 by ewolfghe          #+#    #+#             */
-/*   Updated: 2022/12/07 14:01:39 by ewolfghe         ###   ########.fr       */
+/*   Created: 2022/10/12 17:22:38 by ewolfghe          #+#    #+#             */
+/*   Updated: 2022/10/12 17:30:21 by ewolfghe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-char	*ft_strnstr(const char *big, const char *lil, size_t len)
+int	ft_puthex(unsigned long n, int flag)
 {
-	size_t	i;
-	size_t	j;
+	int	len;
 
-	if (lil == NULL || big == NULL)
-		return (NULL);
-	if (lil[0] == '\0')
-		return ((char *)big);
-	i = 0;
-	while (big[i] != '\0' && i < len)
+	len = 0;
+	if (n >= 16)
 	{
-		j = 0;
-		while ((big[i + j] == lil[j]) && (i + j) < len)
-		{
-			if (lil[j + 1] == '\0')
-				return ((char *)(&big[i]));
-			j++;
-		}
-		i++;
+		len = len + ft_puthex((n / 16), flag);
+		len = len + ft_puthex((n % 16), flag);
 	}
-	return (NULL);
+	else
+	{
+		if (n < 10)
+			return (ft_putchar(HEX[n]));
+		else
+			return (ft_putchar(HEX[n] - ('x' - flag)));
+	}
+	return (len);
 }

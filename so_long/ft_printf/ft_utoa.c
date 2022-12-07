@@ -1,37 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   ft_utoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ewolfghe <ewolfghe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/06 19:53:47 by ewolfghe          #+#    #+#             */
-/*   Updated: 2022/12/07 14:01:39 by ewolfghe         ###   ########.fr       */
+/*   Created: 2022/10/12 16:39:45 by ewolfghe          #+#    #+#             */
+/*   Updated: 2022/10/12 16:49:23 by ewolfghe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-char	*ft_strnstr(const char *big, const char *lil, size_t len)
+static int	ft_count(unsigned int n)
 {
-	size_t	i;
-	size_t	j;
+	int	len;
 
-	if (lil == NULL || big == NULL)
-		return (NULL);
-	if (lil[0] == '\0')
-		return ((char *)big);
-	i = 0;
-	while (big[i] != '\0' && i < len)
+	len = 1;
+	while (n > 9)
 	{
-		j = 0;
-		while ((big[i + j] == lil[j]) && (i + j) < len)
-		{
-			if (lil[j + 1] == '\0')
-				return ((char *)(&big[i]));
-			j++;
-		}
-		i++;
+		n = n / 10;
+		len++;
 	}
-	return (NULL);
+	return (len);
+}
+
+int	ft_utoa(unsigned int n)
+{
+	char	*str;
+	int		len;
+
+	len = ft_count(n);
+	str = (char *) malloc(len + 1);
+	if (!str)
+		return (0);
+	str[len] = 0;
+	while (len > 0)
+	{
+		str[len - 1] = (n % 10) + '0';
+		n = n / 10;
+		len--;
+	}
+	len = ft_putstr(str);
+	free(str);
+	return (len);
 }

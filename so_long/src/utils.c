@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yacis@student.42istanbul.com.tr <yacis>    +#+  +:+       +#+        */
+/*   By: ewolfghe <ewolfghe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/05 19:39:58 by yacis@stude       #+#    #+#             */
-/*   Updated: 2022/10/08 16:33:32 by yacis@stude      ###   ########.fr       */
+/*   Created: 2022/12/07 19:37:29 by ewolfghe          #+#    #+#             */
+/*   Updated: 2022/12/07 19:37:30 by ewolfghe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/so_long.h"
+#include "so_long.h"
 
-void	ft_init_pos(int *x, int *y)
+void	ft_init_xy(int *x, int *y)
 {
 	*x = 0;
 	*y = 0;
@@ -30,25 +30,25 @@ void	ft_map_size(int *x, int *y, t_game *game)
 
 void	ft_render_after_move(t_game *game)
 {
-	mlx_clear_window(game->mlx, game->win);
+	mlx_clear_window(game->mlx, game->window);
 	ft_put_image(game);
 }
 
-int	ft_check_moves(t_game *game, int x, int y)
+int	ft_check_movement(t_game *game, int x, int y)
 {
-	if (game->map_ptr[y][x] != WALL)
+	if (game->map2[y][x] != '1')
 	{
-		if (game->map_ptr[y][x] == COINS)
+		if (game->map2[y][x] == 'C')
 			game->coins_count--;
-		else if (!game->coins_count && game->map_ptr[y][x] == EXIT)
+		else if (!game->coins_count && game->map2[y][x] == 'E')
 		{
-			ft_printf("Moves: %d\nCongratulations!", ++(game->move_count));
+			ft_printf("Move: %d\nCongratulations!", ++(game->move_count));
 			ft_free_all(game);
 			exit(EXIT_SUCCESS);
 		}
-		if (game->map_ptr[y][x] == EXIT)
+		if (game->map2[y][x] == 'E')
 			return (0);
-		ft_printf("Moves: %d\n", ++(game->move_count));
+		ft_printf("Move: %d\n", ++(game->move_count));
 		return (1);
 	}
 	return (0);
@@ -58,5 +58,5 @@ void	ft_ber_map_check(t_game *game)
 {
 	if (game->coins_count < 1 || game->exit_count != 1
 		|| game->player_count != 1)
-		ft_error("Error! Map is missing 1P or 1C or 1E.", game);
+		ft_error("Error! Map must include 1P or 1C or 1E.", game);
 }

@@ -5,50 +5,54 @@
 #                                                     +:+ +:+         +:+      #
 #    By: ewolfghe <ewolfghe@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/11/27 16:09:04 by ewolfghe          #+#    #+#              #
-#    Updated: 2022/12/03 12:54:19 by ewolfghe         ###   ########.fr        #
+#    Created: 2022/12/07 19:37:41 by ewolfghe          #+#    #+#              #
+#    Updated: 2022/12/07 19:37:42 by ewolfghe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	=	so_long
-CC		=	gcc
-FLAGS	=	-Wall -Wextra -Werror
-MLX		=	mlx/libmlx.a
-LIB		=	libft/libft.a
-COMP	=	-L ./libft/ -lft -L ./mlx/ -lmlx -lXext -lX11 -lm -lbsd
-SRC		=	./src/so_long.c ./src/game_init.c ./src/utils.c \
-			./src/get_next_line.c ./src/hooks.c ./src/ber_wall_check.c \
-			./src/map_check.c
+SRCS = src/so_long.c \
+		src/ber_map_check.c \
+		src/path_check.c \
+		src/game_init.c \
+		src/utils.c \
+		src/hooks.c
 
-OBJ		=	$(SRC:.c=.o)
+OBJS = $(SRCS:.c=.o)
 
-all:	$(MLX) $(LIB) $(NAME)
+CC = gcc
 
-$(NAME):	$(OBJ)
-	$(CC) $(FLAGS) -o $@ $^ $(COMP)
-	
-$(MLX):
-	@make -s -C mlx
-	@echo "MiniLibX successfully compiled!"
+MFLAGS = ./libft/libft.a ./mlx/libmlx.a ./ft_printf/libftprintf.a ./get_next_line/get_next_line.a
 
-$(LIB):
-	@make -s C libft
-	@echo "Libft successfully compiled!"
+AFLAGS =  -Wall -Wextra -Werror -I./mlx -I./libft -I./ft_printf -I./get_next_line
 
-.c.o:
-	$(CC) $(FLAGS) -c $< -o $(<:.c=.o)
+RM = rm -rf
 
-clean:
-	@make -s $@ -C libft
-	@rm -rf $(OBJ)
-	@echo "Object Files removed."
+NAME = so_long
 
-fclean:		clean
-	@make -s $@ -C libft
-	@make -s clean -C mlx
-	@rm -rf $(NAME)
-	@echo "Binary files removed."
+all :$(MFLAGS) $(NAME)
 
-re:		fclean all
+$(MFLAGS):
+	make -C ./libft
+	make -C ./get_next_line
+	make -C ./ft_printf
+	make -C ./mlx
 
-.PHONY:		all clean fclean re
+$(NAME): $(OBJS)
+	$(CC) $(OBJS) $(MFLAGS) $(AFLAGS) -L ./libft/ -lft -L ./mlx/ -lmlx -L ./ft_printf/ -L ./get_next_line/ -lXext -lX11 -lm -lbsd -o $(NAME)
+
+fclean : clean
+	make fclean -C ./libft
+	make fclean -C ./ft_printf
+	make fclean -C ./get_next_line
+	$(RM) $(NAME)
+
+clean :
+	make clean -C ./libft
+	make clean -C ./ft_printf
+	make clean -C ./get_next_line
+	make clean -C ./mlx
+	$(RM) ./src/*.o
+
+re : fclean all
+
+.PHONY : all fclean clean re
