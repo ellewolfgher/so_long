@@ -6,7 +6,7 @@
 /*   By: ewolfghe <ewolfghe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 19:37:14 by ewolfghe          #+#    #+#             */
-/*   Updated: 2022/12/07 19:37:16 by ewolfghe         ###   ########.fr       */
+/*   Updated: 2022/12/08 14:53:23 by ewolfghe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	ft_free_all(t_game *game)
 		}
 		free(game->map2);
 	}
+	free(game);
 }
 
 void	ft_free_mlx(t_game *game)
@@ -55,6 +56,7 @@ void	ft_free_mlx(t_game *game)
 	mlx_destroy_image(game->mlx, game->player_b);
 	mlx_destroy_image(game->mlx, game->player_f);
 	mlx_destroy_window(game->mlx, game->window);
+	mlx_destroy_display(game->mlx);
 	free(game->mlx);
 }
 
@@ -81,6 +83,6 @@ int	main(int ac, char **av)
 	else
 	{
 		game = ft_calloc(sizeof(t_game), 1);
-		ft_error("You just have to enter the map path!", game);
+		ft_error("Map file is missing.", game);
 	}
 }

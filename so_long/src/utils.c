@@ -6,7 +6,7 @@
 /*   By: ewolfghe <ewolfghe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 19:37:29 by ewolfghe          #+#    #+#             */
-/*   Updated: 2022/12/07 19:37:30 by ewolfghe         ###   ########.fr       */
+/*   Updated: 2022/12/08 14:23:35 by ewolfghe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ int	ft_check_movement(t_game *game, int x, int y)
 			game->coins_count--;
 		else if (!game->coins_count && game->map2[y][x] == 'E')
 		{
-			ft_printf("Move: %d\nCongratulations!", ++(game->move_count));
+			ft_printf("MOVES: %d\nCongratulations!", ++(game->move_count));
 			ft_free_all(game);
 			exit(EXIT_SUCCESS);
 		}
 		if (game->map2[y][x] == 'E')
 			return (0);
-		ft_printf("Move: %d\n", ++(game->move_count));
+		ft_printf("MOVES: %d\n", ++(game->move_count));
 		return (1);
 	}
 	return (0);

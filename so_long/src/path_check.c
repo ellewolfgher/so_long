@@ -6,7 +6,7 @@
 /*   By: ewolfghe <ewolfghe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 19:37:05 by ewolfghe          #+#    #+#             */
-/*   Updated: 2022/12/07 19:37:06 by ewolfghe         ###   ########.fr       */
+/*   Updated: 2022/12/08 14:15:19 by ewolfghe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,5 @@ void	ft_path_check(t_game *game)
 	}
 	free(game->tmp_map2);
 	if (game->tmp_coins_count != 0 || game->validate != 1)
-		ft_error("Error! There isn't valid way to go exit.", game);
+		ft_error("Error! Valid path is missing.", game);
 }

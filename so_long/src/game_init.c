@@ -6,7 +6,7 @@
 /*   By: ewolfghe <ewolfghe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 19:36:47 by ewolfghe          #+#    #+#             */
-/*   Updated: 2022/12/07 19:40:57 by ewolfghe         ###   ########.fr       */
+/*   Updated: 2022/12/08 14:34:15 by ewolfghe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_init_map(t_game *game, char *map)
 
 	fd = open(map, O_RDONLY);
 	if (fd < 0)
-		ft_error("File don't found!", game);
+		ft_error("File not found!", game);
 	buff = get_next_line(fd);
 	if (!buff)
 		ft_error("File is empty!", game);
@@ -102,9 +102,9 @@ void	ft_put_image_player(t_game *game, int x, int y)
 void	ft_score(t_game *game)
 {
 	game->move_count_screen = ft_itoa(game->move_count);
-	mlx_string_put(game->mlx, game->window, 30, 30, 0xFFFFFF, \
-	"Moves: ");
-	mlx_string_put(game->mlx, game->window, 65, 30, 0xFFFFFF, \
+	mlx_string_put(game->mlx, game->window, 30, 30, 0x000000, \
+	"MOVES:  ");
+	mlx_string_put(game->mlx, game->window, 65, 30, 0x000000, \
 		game->move_count_screen);
 	free(game->move_count_screen);
 }

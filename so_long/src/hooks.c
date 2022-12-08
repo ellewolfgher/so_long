@@ -6,7 +6,7 @@
 /*   By: ewolfghe <ewolfghe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 19:36:56 by ewolfghe          #+#    #+#             */
-/*   Updated: 2022/12/07 19:36:57 by ewolfghe         ###   ########.fr       */
+/*   Updated: 2022/12/08 14:53:39 by ewolfghe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	ft_key_event(int key, t_game *game)
 {
 	if (key == KEY_ESC)
 	{
+		ft_free_mlx(game);
 		ft_free_all(game);
 		exit(EXIT_SUCCESS);
 	}

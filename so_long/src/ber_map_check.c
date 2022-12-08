@@ -6,7 +6,7 @@
 /*   By: ewolfghe <ewolfghe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 19:36:37 by ewolfghe          #+#    #+#             */
-/*   Updated: 2022/12/07 19:36:38 by ewolfghe         ###   ########.fr       */
+/*   Updated: 2022/12/08 14:14:33 by ewolfghe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_ber_check(char *map_name, t_game *game)
 	if (map_name[len - 1] != 'r' || map_name[len - 2] != 'e'
 		|| map_name[len - 3] != 'b' || map_name[len - 4] != '.'
 		|| len <= 9)
-		ft_error("Must be '.ber' extension!", game);
+		ft_error("Map file must be a '.ber' extension!", game);
 }
 
 void	ft_map_check(t_game *game)
@@ -44,7 +44,7 @@ void	ft_map_check(t_game *game)
 				game->ply_y = i;
 			}
 			else if (game->map2[i][j] != '0' && game->map2[i][j] != '1')
-				ft_error("Error! Map must include 1P or 1C or 1E.", game);
+				ft_error("Error! Map is missing a 1P or 1C or 1E.", game);
 			j++;
 		}
 		i++;
@@ -65,7 +65,7 @@ void	ft_format_check(t_game *game)
 	{
 		line_len2 = ft_strlen(game->map2[i]);
 		if (line_len2 != line_len1)
-			ft_error("Error! The map is not rectangular.", game);
+			ft_error("Error! The map needs to be rectangular.", game);
 		i++;
 	}
 }
